@@ -1,0 +1,78 @@
+<style>
+
+html {
+    margin: auto;
+}
+
+body {
+    background-color: lightgray;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 10px;
+    line-height: 1.5;
+    margin: 0px auto;
+    max-width: none;
+    padding: 2em 0em 0em 0em;
+    text-align:center;
+    color: darkslategray;
+    font-size: 8px;  
+
+}
+
+
+.main{
+    width: 100%;
+    height: 80%;
+    position:absolute;
+}
+
+.quarter-div{
+    width: 50%;
+    height: 50%;
+    float:left;
+}
+
+.blue{
+    background-color: darkslategray;
+}
+
+.green{
+    background-color: darkslategray;
+}
+
+.orange{
+    background-color: darkslategray;
+}
+
+.yellow{
+    background-color: darkslategray;
+}
+
+.bottom{
+    background-color: lightgray
+}
+
+.btn{
+    font-size: 16px;
+    color: slategrey;
+    background-color: yellow;
+    border-radius: 8px;
+    padding: 1px 5px;
+    border: none;
+    margin-top: -25em;
+    margin-left: 70em;
+    display: inline-block;
+    -webkit-transition-duration: 0.4s;
+    transition-duration: 0.4s;
+}
+
+.image{
+    padding:20;
+    position: relative;
+}
+.banner > img {
+    position: absolute;
+    width: 80%; height: 80%;
+    left: 0; top: 0;
+}
+
+</style>
