@@ -5,7 +5,7 @@ To get training data, I have designed a website.
 
 The user chooses the face they like, the back-end will record choices into database.
 
-I wil display the picture by simple random sampling with replacement(which has not been realised).
+I wil display the picture by simple random sampling with replacement(which has not been realised yet).
 
 This little project is mainly based on Flask.
 
