@@ -1,0 +1,19 @@
+<html >
+    <head>
+        <title>Login Page</title>
+        <link rel='stylesheet' href="{{ url_for('static', filename='css/main.css') }}">
+    </head>
+    <body>
+        <br/>
+        <header>Preferable Face</header>
+        <form  action="{{ url_for("login") }}" method="post">
+            <br/>
+            <input type="text" class="texttype" name="username" placeholder="login name" ><br/>
+            <button type="submit" class="btn">Enter</button><br/>
+            {% for message in get_flashed_messages() %}
+            {{message}}
+            {%endfor%}    
+        </form>
+        {{ form.csrf_token }} 
+    </body>
+</html>

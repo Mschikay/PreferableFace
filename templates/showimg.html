@@ -1,0 +1,40 @@
+<html>
+    <head>
+          <link rel='stylesheet' href="{{ url_for('static', filename='css/img.css') }}">
+    </head>
+    
+    <body>
+        <h1> 
+            Choose your preferable face.<br>
+            You can click none or all of them.
+        </h1>
+        
+        <form method="post">
+        <div class="first" >
+            <input type="submit" class="imgbutton" style="background-image:url('{{url_for('static', filename='data/'+img1)}}')" 
+            id="img1" 
+            value={{value1}} 
+            onclick="copyname(this.id)"><br/>
+        </div>
+        <div class="second">
+            <input type="submit" class="imgbutton" style="background-image:url('{{url_for('static', filename='data/'+img2)}}')" 
+            id="img2"
+             value={{value2}} 
+            onclick="copyname(this.id)"><br/>
+        </div>
+        
+        <div class="bottom">
+            <input type="hidden" name="like" value="" id="like"><br/>
+            
+            <button type="submit" class="btn" >skip</button>
+        </div>
+        
+        <script>
+            function copyname(clicked_id){
+                document.getElementById("like").value=document.getElementById(clicked_id).value;
+            }
+        </script>
+        </form>   
+        
+    </body>
+</html>
