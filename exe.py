@@ -12,19 +12,18 @@ from db import db, Prefer
 import sqlite3
 import numpy as np
 
-num = 0
-filename = np.arange(app.config["PICNUM"])
-save = []
+
+num = 1
+count = {}
 db.create_all()
 
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    global num 
+    global num, count
     num = 0
+    count = {}
     # every time before user login, shuffle the image
-    global filename
-    np.random.shuffle(filename)
     form = LoginForm()
     session["user"] = ""
     error = None
@@ -39,27 +38,28 @@ def login():
         else:
             print session["user"]
             # save the username
-            # db.session.add(User(username=session["user"]))
             return redirect(url_for('showimg'))
     return render_template('login.html', title="Sign In", form=form, error=error)
     
 
-def write2db(username, save):
-    save = list(set(save))
-    print save
-    if len(save) == 0:
+def write2db(username):
+    global count
+    prefer = count.keys()
+    prefer = list(set(prefer))
+    if len(prefer) == 0:
         return 
     else:
         try:
             table_prefer = Prefer.query.all()
-            print len(table_prefer)
+            print len(prefer)
             if len(table_prefer) == 0:
                 pid = np.int64(0)
-            # get the last p_id
+            # get the last p_id(PRIMARY KEY, UNIQUE)
             else:
                 pid = np.int64(table_prefer[-1].p_id)+1
-            for i in range(len(save)):
-                db.session.add(Prefer(p_id=str(pid+i), username=username, prefer=save[i]))
+                
+            for i in range(len(prefer)):
+                db.session.add(Prefer(p_id=str(pid+i), username=username, prefername=prefer[i], prefernum=count[prefer[i]]))
                 db.session.commit()
         
         except sqlite3.IntegrityError, sqlite3.OperationalError:
@@ -72,40 +72,42 @@ def write2db(username, save):
 
 @app.route('/showimg', methods=["GET", "POST"])
 def showimg():
-    global num
-    global filename  
+    global num, count
     imgform = ImgForm()
-
-    if num == app.config["PICNUM"]/2-1:
-        write2db(session["user"], save)
-        return logout()
-
-    print filename
-    img1 = str(filename[num*2])+".jpg"
-    img2 = str(filename[num*2+1])+".jpg"
-    value1 = str(filename[num*2])
-    value2 = str(filename[num*2+1])
     
+    # randomly display 2 new images
+    filename1 = np.random.randint(low=0, high=app.config["PIC_NUM"], dtype=np.int64)
+    filename2 = np.random.randint(low=0, high=app.config["PIC_NUM"], dtype=np.int64)
+    while(filename1 == filename2):
+        filename2 = np.random.randint(low=0, high=app.config["PIC_NUM"], dtype=np.int64)    
+    img1 = str(filename1)+".jpg"
+    img2 = str(filename2)+".jpg"
+    value1 = str(filename1)
+    value2 = str(filename2)
+        
     if request.method == "POST" :
         like = request.form["like"]
         if like != "":
             # save to write in database
-            save.append(like)
+            k = count.get(like, 0)
+            k += 1
+            count[like] = k
         else:
             pass
-        # randomly display 2 new images
-        num = num+1    
-        img1 = str(filename[num*2])+".jpg"
-        img2 = str(filename[num*2+1])+".jpg"
-        value1 = str(filename[num*2])
-        value2 = str(filename[num*2+1])
+        num += 1
+        if num >= app.config["ITER_NUM"]:
+            write2db(session["user"])
+            return logout()
+        else:
+            return render_template("showimg.html", form=imgform, img1=img1, 
+                               img2=img2, value1=value1, value2=value2)
+    elif request.method == 'GET':      
         return render_template("showimg.html", form=imgform, img1=img1, 
                                img2=img2, value1=value1, value2=value2)
     else:
-        return render_template("showimg.html", form=imgform, img1=img1, 
-                               img2=img2, value1=value1, value2=value2)
-
-
+        pass
+    
+    
 @app.route('/logout')
 def logout():
     session.pop("user", None)
