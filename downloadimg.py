@@ -40,6 +40,3 @@ def getImg(html):
 
 if __name__ == '__main__':
     getImg(html)
-
-#pic_url = re.findall('"thumbURL":"(.*?)"', html, re.S)
-#print pic_url
