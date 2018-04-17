@@ -22,9 +22,9 @@ body {
 .first {
     margin-top: 1em;
     margin-left: 3em;
-    width: 530px;
+    width: 800px;
     float:left;
-    height: 600px;
+    height: 1200px;
     border: 3px solid darkslategray;
     background-color: yellow;
     border-radius: 8px;
@@ -32,9 +32,9 @@ body {
 .second {
     margin-top: 1em;
     margin-left: 3em;
-    width: 530px;
+    width: 800px;
     float:left;
-    height: 600px;
+    height: 1200px;
     border: 3px solid darkslategray;
     background-color: green;
     border-radius: 8px;

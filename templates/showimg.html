@@ -5,21 +5,23 @@
     
     <body>
         <h1> 
-            Choose your preferable face.<br>
-            You can click none or all of them.
+            选择您比较喜欢的那张脸.<br/>
+            如果都不喜欢，可以选择跳过（skip）.<br/>
+            做完会自动登出，请不要中途关闭程序，答案将不会保存...<br/>
+            剩余:{{left}}次
         </h1>
         
         <form method="post">
         <div class="first" >
-            <input type="submit" class="imgbutton" style="background-image:url('{{url_for('static', filename='data/'+img1)}}')" 
-            id="img1" 
-            value={{value1}} 
+            <input type="submit" class="imgbutton" style="background-image:url('{{url_for('static', filename='wdata/'+img1)}}')" 
+            id={{value1}}  
+            value=" "
             onclick="copyname(this.id)"><br/>
         </div>
         <div class="second">
-            <input type="submit" class="imgbutton" style="background-image:url('{{url_for('static', filename='data/'+img2)}}')" 
-            id="img2"
-             value={{value2}} 
+            <input type="submit" class="imgbutton" style="background-image:url('{{url_for('static', filename='wdata/'+img2)}}')" 
+            id={{value2}} 
+            value=" "
             onclick="copyname(this.id)"><br/>
         </div>
         
@@ -31,7 +33,7 @@
         
         <script>
             function copyname(clicked_id){
-                document.getElementById("like").value=document.getElementById(clicked_id).value;
+                document.getElementById("like").value=clicked_id;
             }
         </script>
         </form>   

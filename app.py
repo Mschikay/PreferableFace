@@ -22,5 +22,5 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////home/hannah/Desktop/flask/database/prefer.db'
 
 app.config["PICPATH"] = "/home/hannah/Desktop/flask/templates/"
-app.config["ITER_NUM"] = 1
-app.config["PIC_NUM"] = 10
+app.config["ITER_NUM"] = 150
+app.config["PIC_NUM"] = 100
