@@ -12,23 +12,14 @@ path = os.getcwd()
 import gevent
 import time
 
-
-def getpages():
-    url = 'http://www.ifensi.com/list9/'
-    pages = 9
-    while(pages!=0):
-        html = requests.get(url).text
-        getImg(html)
-
-        
-        url = re.findall('<a class="two" href="(.*?)"', html, re.S)[0]
-        pages -= 1
-    return 
+pages = 9
 
 
 def getImg(html):
-    global path
-    pic_url = re.findall('blank.><img src="(.*?)" alt=.*?width', html, re.S)
+    global pages, path
+    pages -= 1
+    assert pages>=0, "done"
+    pic_url = re.findall('blank.><img src="(.*?)".alt=.*?width', html, re.S)
     name = re.findall('blank.><img src=".*?alt="(.*?)"', html, re.S)
     
     for i in range(len(pic_url)):
@@ -42,14 +33,22 @@ def getImg(html):
         fp.write(pic.content)
         fp.close()
         i += 1
-    
+    url = re.findall('<a class="two" href="(.*?)"', html, re.S)[0]
+    html = requests.get(url).text
+    #getImg(html)
+    g = gevent.spawn(getImg, html)
+    g.join()
+
     #print pic_url, '\n\n', "name:",name[0].encode('utf-8').decode('utf-8'), '\n\n', nexturl
-    #print len(name), len(pic_url)
     return
 
 
 if __name__ == '__main__':
     start = time.time()
-    getpages()
-    #print"with gevent use ", time.time()-start # 10.0935359001
-    print"without gevent use ", time.time()-start # 
+    url = 'http://www.ifensi.com/list9/1-1-1-1-1-1/10.html'
+    html = requests.get(url).text
+    #getImg(html)
+    g = gevent.spawn(getImg, html)
+    g.join()
+    print"with gevent use ", time.time()-start # 7.07706308365
+    #print"without gevent use ", time.time()-start # 7.84964609146
